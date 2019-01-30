@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "NotifyReviewer",
+  "description": "Add listener to github flags",
+  "version": "1.0.0",
+  "background": {
+    "page": "background.html",
+    "persistent": true
+  },
+  "permissions": [
+    "storage",
+    "notifications",
+    "https://github.com/"
+  ],
+  "icons": {
+    "128": "logo.png"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": false
+  },
+  "browser_action": {
+    "default_popup": "options.html"
+  }
+}

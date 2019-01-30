@@ -1,0 +1,40 @@
+{
+  "name": "notify-reviewer",
+  "version": "1.0.0",
+  "description": "Add listener to github flags",
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "dev": "webpack --config webpack.dev.js",
+    "watch": "webpack -w --config webpack.dev.js",
+    "lint": "tslint 'src/**/*.{ts, tsx}'"
+  },
+  "author": "Pushpay",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chrome": "0.0.77",
+    "@types/react": "^16.7.18",
+    "@types/react-dom": "^16.0.11",
+    "css-loader": "^2.1.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^5.3.3",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.2.2",
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.2.1",
+    "webpack-merge": "^4.2.1"
+  },
+  "dependencies": {
+    "autoprefixer": "^9.4.4",
+    "bootstrap": "^4.2.1",
+    "jquery": "^3.3.1",
+    "postcss-loader": "^3.0.0",
+    "precss": "^4.0.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "reactstrap": "^7.0.2",
+    "tslint": "^5.12.0"
+  }
+}
