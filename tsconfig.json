@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "es6",
+        "moduleResolution": "node",
+        "rootDir": "src",
+        "outDir": "dist/js",
+        "sourceMap": true,
+        "jsx": "react",
+        "lib": ["es2018", "dom"],
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true
+    }
+}
