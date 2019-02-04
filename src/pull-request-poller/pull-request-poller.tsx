@@ -4,7 +4,7 @@ import { initState, FlagToListenTo } from '../option/option-window';
 
 
 export default class PullRequestPoller extends React.Component<FlagToListenTo, {}> {
-	timer: NodeJS.Timer;
+	timer: number;
 	props: FlagToListenTo;
 
 	constructor(props: any, state: any) {
@@ -14,7 +14,7 @@ export default class PullRequestPoller extends React.Component<FlagToListenTo, {
 
 	componentDidMount() {
 		this.timer = setInterval(() =>
-			fetch(`${this.props.repoUrl}/pulls?q=is%3Aopen+is%3Apr+${this.props.flag.map((value) => `label:"${value}"`).join('+')}`)
+			fetch(`${this.props.repoUrl}/pulls?q=is%3Aopen+is%3Apr+${this.props.flag.map((value) => `label%3A"${encodeURIComponent(value).replace(/%20/g, '+')}"`).join('+')}`)
 				.then((response) => {
 					return response.text();
 				})
