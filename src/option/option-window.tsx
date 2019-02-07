@@ -145,11 +145,11 @@ export default class OptionWindow extends React.Component {
 				<Form id="optionForm" onSubmit={this.handleSubmit} className="form-horizontal" >
 					<FormGroup className="checkbox-form">
 						<InputGroup>
-							<Input onChange={this.keepHistoryChange} type="checkbox" id="keepHistory" checked={this.state.keepHistory} />
+							<Input onChange={this.keepHistoryChange} type="checkbox" id="keepHistory" checked={!!this.state.keepHistory} />
 							<Label for="keepHistory">Keep pull request history after Chrome exits</Label>
 						</InputGroup>
 						<InputGroup>
-							<Input onChange={this.autoCloseChange} type="checkbox" id="autoClose" checked={this.state.autoCloseEnabled} />
+							<Input onChange={this.autoCloseChange} type="checkbox" id="autoClose" checked={!!this.state.autoCloseEnabled} />
 							<Label for="autoClose">Close notifications after 30 seconds</Label>
 						</InputGroup>
 					</FormGroup>
