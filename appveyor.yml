@@ -20,4 +20,4 @@ build_script:
   - npm build
   
 after_build:
-  - node ./deploy.js
+  - IF %APPVEYOR_REPO_BRANCH%==master (node ./deploy.js)
