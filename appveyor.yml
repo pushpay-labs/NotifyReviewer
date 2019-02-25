@@ -1,0 +1,23 @@
+environment:
+  nodejs_version: "6"
+  CLIENT_ID: "%CLIENT_ID%"
+  EXTENSION_ID: "%EXTENSION_ID%"
+  CLIENT_SECRET: "%CLIENT_SECRET%"
+  REFRESH_TOKEN: "%REFRESH_TOKEN%"
+  APPVEYOR_BUILD_VERSION: "%APPVEYOR_BUILD_VERSION%"
+  
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - npm install
+  - npm i edit-json-file
+  - npm i zip-folder
+  - npm i chrome-webstore-upload
+  - yarn add edit-json-file
+  - yarn add zip-folder
+  - yarn add chrome-webstore-upload
+  
+build_script:
+  - npm build
+  
+after_build:
+  - node ./deploy.js
