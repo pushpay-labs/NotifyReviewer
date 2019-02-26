@@ -7,13 +7,13 @@ const file = editJsonFile('./dist/manifest.json');
 file.set('version', process.env.APPVEYOR_BUILD_VERSION);
 file.save();
  
-let folder = 'dist';
-let zipName = 'extension.zip';
+const folder = 'dist';
+const zipName = 'extension.zip';
 
-let REFRESH_TOKEN = process.env.REFRESH_TOKEN; 
-let EXTENSION_ID = process.env.EXTENSION_ID;
-let CLIENT_SECRET = process.env.CLIENT_SECRET;
-let CLIENT_ID = process.env.CLIENT_ID;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN; 
+const EXTENSION_ID = process.env.EXTENSION_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const CLIENT_ID = process.env.CLIENT_ID;
 
 const webStore = require('chrome-webstore-upload')({
   extensionId: EXTENSION_ID,
