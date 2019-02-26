@@ -20,7 +20,7 @@ install:
   - yarn add chrome-webstore-upload
   
 build_script:
-  - npm build
+  - npm run build
   
 after_build:
   - IF %APPVEYOR_REPO_BRANCH%==master (node ./deploy.js)
