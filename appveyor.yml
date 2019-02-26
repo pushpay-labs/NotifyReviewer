@@ -1,0 +1,26 @@
+environment:
+  nodejs_version: "6"
+  EXTENSION_ID:
+    secure: 1sDEVQM+HCPKqyAwafg5BUi7d+fVcyoYuzxuBRGfsRyju2QC7YVy9ha9Ze6aNZMZ
+  CLIENT_SECRET:
+    secure: CCeLQqxUQPUBHAn1S+N6DP72gw80T5I3QNejYw4vNdI=
+  CLIENT_ID:
+    secure: QSdrj1HN7MLxq+yUajggvVdBWcidn2vrWedukEHOUWZKxxPU5/9j0FL/oyHGgbXF59II7vXzEk6ZUkpVww8oj7dlSpbNK5k3szMSHT37i2w=
+  REFRESH_TOKEN:
+    secure: /z8KWlmK5cNa2X/6nhczg/bJYylD0NeCaT9sivRfTrm/xOtgmhRJEM30WWjmEGk5
+
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - npm install
+  - npm i edit-json-file
+  - npm i zip-folder
+  - npm i chrome-webstore-upload
+  - yarn add edit-json-file
+  - yarn add zip-folder
+  - yarn add chrome-webstore-upload
+  
+build_script:
+  - npm build
+  
+after_build:
+  - IF %APPVEYOR_REPO_BRANCH%==master (node ./deploy.js)
