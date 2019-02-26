@@ -2,7 +2,7 @@ const zipFolder = require('zip-folder');
 const editJsonFile = require("edit-json-file");
 const fs = require('fs');
 
-let file = editJsonFile('./dist/manifest.json');
+const file = editJsonFile('./dist/manifest.json');
  
 file.set('version', process.env.APPVEYOR_BUILD_VERSION);
 file.save();
