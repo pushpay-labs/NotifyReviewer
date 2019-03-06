@@ -6,6 +6,8 @@ import { extensionName } from '../constants';
 export interface FlagToListenTo {
 	repoUrl: string;
 	flag: string[];
+	authors: string[];
+	ExcludeOrOnly: boolean;
 	frequency: number;
 	isValid: boolean;
 }
@@ -168,6 +170,26 @@ export default class OptionWindow extends React.Component {
 								<InputGroupText id="flagsaddon" >Label to listen to</InputGroupText>
 							</InputGroupAddon>
 							<Input id="flagInput" name="flagInput" type="text" placeholder="Ready For Review; Ready To Land" aria-label="flags" aria-describedby="flagsaddon" required />
+						</InputGroup>
+					</FormGroup>
+					<FormGroup>
+						<InputGroup>
+							<InputGroupAddon addonType="prepend">
+								<InputGroupText id="flagsaddon" >Author to listen to</InputGroupText>
+							</InputGroupAddon>
+							<Input id="flagInput" name="flagInput" type="text" placeholder="author1; author2" aria-label="flags" aria-describedby="flagsaddon" required />
+						</InputGroup>
+					</FormGroup>
+					<FormGroup>
+						<InputGroup className="form-check-inline">
+							<Input type="radio" name="ExcludeOrOnly" id="radioExclude" value="Exclude"  checked/>
+							<Label for="radioExclude">
+								Exclude Authors
+							</Label>
+							<Input type="radio" name="ExcludeOrOnly" id="radioOnly" value="Only" />
+							<Label for="radioOnly">
+								Only Authors
+							</Label>
 						</InputGroup>
 					</FormGroup>
 					<FormGroup>
