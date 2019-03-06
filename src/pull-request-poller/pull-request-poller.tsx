@@ -4,7 +4,8 @@ import { initState, FlagToListenTo } from '../option/option-window';
 
 
 export default class PullRequestPoller extends React.Component<FlagToListenTo, {}> {
-	timer: number;
+	//https://stackoverflow.com/questions/45802988/typescript-use-correct-version-of-settimeout-node-vs-window
+	timer: any;
 	props: FlagToListenTo;
 
 	constructor(props: any, state: any) {
