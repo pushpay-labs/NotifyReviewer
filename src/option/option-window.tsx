@@ -233,11 +233,12 @@ export default class OptionWindow extends React.Component {
 					<h5>Listeners</h5>
 					<ul className="list-group list-group-flush list_sbar">
 						<Table>
-							<thead><tr><th>Repo</th><th>Flags</th><th>Freq(secs)</th><th></th></tr></thead>
+							<thead><tr><th>Repo</th><th>Flags</th><th>Authors</th><th>Freq(secs)</th><th></th></tr></thead>
 							<tbody>{this.state.flags.map((flag, index) => {
 								return <tr className={flag.isValid ? '' : 'table-danger'} key={index}>
 									<td>{flag.repoUrl.replace('https://github.com/', '')}</td>
 									<td>{flag.flag.join('; ')}</td>
+									<td>{!flag.ExcludeOrOnly ? <s>{flag.authors.join('; ')}</s> : flag.authors.join('; ')}</td>
 									<td>{flag.frequency}</td>
 									<td>
 										<Button type="button" className="close" aria-label="Close" onClick={() => this.removeFlag(index)}>
