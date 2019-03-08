@@ -1,3 +1,5 @@
+![Alt text](dist/logo.png?raw=true "NotifyReviewer")
+
 # Notify Reviewer
 
 > Chrome extension making you able to add listener to github flags
