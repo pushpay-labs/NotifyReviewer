@@ -43,6 +43,7 @@ export default class OptionWindow extends React.Component {
 		history: []
 	} as OptionState;
 
+
 	componentDidMount() {
 		chrome.storage.sync.get(extensionName, (savedflags) => this.setState(initState(savedflags)));
 	}
@@ -60,6 +61,22 @@ export default class OptionWindow extends React.Component {
 				keepHistory: !this.state.keepHistory,
 			});
 		});
+	}
+
+	UnRequireInput = () => {
+		const author = document.getElementById('authorInput') as HTMLInputElement;
+		const flag = document.getElementById('flagInput') as HTMLInputElement;
+		if (!author.value) {
+			flag.required = true;
+		} else {
+			flag.required = false;
+		}
+
+		if (!flag.value) {
+			author.required = true;
+		} else {
+			author.required = false;
+		}
 	}
 
 	validateFlag = async (flag: FlagToListenTo) => {
@@ -102,11 +119,16 @@ export default class OptionWindow extends React.Component {
 	handleSubmit = (event) => {
 		event.preventDefault();
 		let flags: string[];
+		let authors: string[];
 		let frequency: number;
 		let repoUrl: string;
+		let ExcludeOrOnly: boolean;
+
 		frequency = event.target.elements.frequencyInput.value;
 		flags = event.target.elements.flagInput.value.split(';').map(item => item.trim()).filter((e) => e);
+		authors = event.target.elements.authorInput.value.split(';').map(item => item.trim()).filter((e) => e);
 		repoUrl = event.target.elements.urlInput.value;
+		ExcludeOrOnly = event.target.elements.ExcludeOrOnly.value === 'Exclude' ? false : true;
 
 		chrome.storage.sync.get(extensionName, async (savedflags) => {
 			let items = savedflags[extensionName] && savedflags[extensionName].flags || [];
@@ -114,6 +136,8 @@ export default class OptionWindow extends React.Component {
 				repoUrl: repoUrl,
 				flag: flags,
 				frequency: frequency,
+				authors: authors,
+				ExcludeOrOnly : ExcludeOrOnly
 			} as FlagToListenTo;
 			newFlag.isValid = await this.validateFlag(newFlag);
 			console.log(newFlag.isValid);
@@ -169,7 +193,8 @@ export default class OptionWindow extends React.Component {
 							<InputGroupAddon addonType="prepend">
 								<InputGroupText id="flagsaddon" >Label to listen to</InputGroupText>
 							</InputGroupAddon>
-							<Input id="flagInput" name="flagInput" type="text" placeholder="Ready For Review; Ready To Land" aria-label="flags" aria-describedby="flagsaddon" required />
+							<Input id="flagInput" name="flagInput" type="text" placeholder="Ready For Review; Ready To Land" aria-label="flags" aria-describedby="flagsaddon" required
+								onChange={this.UnRequireInput} />
 						</InputGroup>
 					</FormGroup>
 					<FormGroup>
@@ -177,12 +202,13 @@ export default class OptionWindow extends React.Component {
 							<InputGroupAddon addonType="prepend">
 								<InputGroupText id="flagsaddon" >Author to listen to</InputGroupText>
 							</InputGroupAddon>
-							<Input id="flagInput" name="flagInput" type="text" placeholder="author1; author2" aria-label="flags" aria-describedby="flagsaddon" required />
+							<Input id="authorInput" name="authorInput" type="text" placeholder="author1; author2" aria-label="flags" aria-describedby="authoraddon" required
+								onChange={this.UnRequireInput} />
 						</InputGroup>
 					</FormGroup>
 					<FormGroup>
 						<InputGroup className="form-check-inline">
-							<Input type="radio" name="ExcludeOrOnly" id="radioExclude" value="Exclude"  checked/>
+							<Input type="radio" name="ExcludeOrOnly" id="radioExclude" value="Exclude" defaultChecked />
 							<Label for="radioExclude">
 								Exclude Authors
 							</Label>
