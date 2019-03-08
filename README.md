@@ -1,5 +1,6 @@
-
--> ![Alt text](dist/logo.png?raw=true "NotifyReviewer") <-
+<p align="center">
+  <img src="https://github.com/pushpay-labs/NotifyReviewer/raw/master/dist/logo.png?raw=true">
+</p>
 
 # Notify Reviewer
 
