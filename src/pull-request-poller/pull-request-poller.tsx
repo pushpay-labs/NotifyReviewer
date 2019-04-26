@@ -31,6 +31,17 @@ export default class PullRequestPoller extends React.Component<FlagToListenTo, {
 							const pullrequests = doc.querySelectorAll('a[id^=\'issue_\']');
 							for (var i = 0, element; element = pullrequests[i]; i++) {
 								let newPr = pullrequests[i].innerHTML;
+								let author = pullrequests[i].parentElement.querySelector('a.muted-link').innerHTML;
+								if (this.props.authors.length > 0) {
+									if (this.props.ExcludeOrOnly && !this.props.authors.includes(author)) {
+										//doesn't show the notification if it's not matching only rules
+										continue;
+									}
+									if (!this.props.ExcludeOrOnly && this.props.authors.includes(author)) {
+										//doesn't show the notification if author is excluded
+										continue;
+									}
+								}
 								if (!state.history.some(x => x.length === newPr.length)) {
 									var opt = {
 										type: 'basic',
