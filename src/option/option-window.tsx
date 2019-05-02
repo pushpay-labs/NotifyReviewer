@@ -7,7 +7,7 @@ export interface FlagToListenTo {
 	repoUrl: string;
 	flag: string[];
 	authors: string[];
-	ExcludeOrOnly: boolean;
+	onlyToogleOn: boolean;
 	frequency: number;
 	isValid: boolean;
 }
@@ -122,13 +122,13 @@ export default class OptionWindow extends React.Component {
 		let authors: string[];
 		let frequency: number;
 		let repoUrl: string;
-		let ExcludeOrOnly: boolean;
+		let onlyToogleOn: boolean;
 
 		frequency = event.target.elements.frequencyInput.value;
 		flags = event.target.elements.flagInput.value.split(';').map(item => item.trim()).filter((e) => e);
 		authors = event.target.elements.authorInput.value.split(';').map(item => item.trim()).filter((e) => e);
 		repoUrl = event.target.elements.urlInput.value;
-		ExcludeOrOnly = event.target.elements.ExcludeOrOnly.value === 'Exclude' ? false : true;
+		onlyToogleOn = event.target.elements.ExcludeOrOnly.value !== 'Exclude';
 
 		chrome.storage.sync.get(extensionName, async (savedflags) => {
 			let items = savedflags[extensionName] && savedflags[extensionName].flags || [];
@@ -137,7 +137,7 @@ export default class OptionWindow extends React.Component {
 				flag: flags,
 				frequency: frequency,
 				authors: authors,
-				ExcludeOrOnly : ExcludeOrOnly
+				onlyToogleOn : onlyToogleOn
 			} as FlagToListenTo;
 			newFlag.isValid = await this.validateFlag(newFlag);
 			console.log(newFlag.isValid);
@@ -208,11 +208,11 @@ export default class OptionWindow extends React.Component {
 					</FormGroup>
 					<FormGroup>
 						<InputGroup className="form-check-inline">
-							<Input type="radio" name="ExcludeOrOnly" id="radioExclude" value="Exclude" defaultChecked />
+							<Input type="radio" name="onlyToogleOn" id="radioExclude" value="Exclude" defaultChecked />
 							<Label for="radioExclude">
 								Exclude Authors
 							</Label>
-							<Input type="radio" name="ExcludeOrOnly" id="radioOnly" value="Only" />
+							<Input type="radio" name="onlyToogleOn" id="radioOnly" value="Only" />
 							<Label for="radioOnly">
 								Only Authors
 							</Label>
@@ -238,7 +238,7 @@ export default class OptionWindow extends React.Component {
 								return <tr className={flag.isValid ? '' : 'table-danger'} key={index}>
 									<td>{flag.repoUrl.replace('https://github.com/', '')}</td>
 									<td>{flag.flag.join('; ')}</td>
-									<td>{!flag.ExcludeOrOnly ? <s>{flag.authors.join('; ')}</s> : flag.authors.join('; ')}</td>
+									<td>{!flag.onlyToogleOn ? <s>{flag.authors.join('; ')}</s> : flag.authors.join('; ')}</td>
 									<td>{flag.frequency}</td>
 									<td>
 										<Button type="button" className="close" aria-label="Close" onClick={() => this.removeFlag(index)}>

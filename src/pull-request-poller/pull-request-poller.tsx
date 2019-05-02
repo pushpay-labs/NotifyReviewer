@@ -33,12 +33,12 @@ export default class PullRequestPoller extends React.Component<FlagToListenTo, {
 								let newPr = pullrequests[i].innerHTML;
 								let author = pullrequests[i].parentElement.querySelector('a.muted-link').innerHTML;
 								if (this.props.authors.length > 0) {
-									if (this.props.ExcludeOrOnly && !this.props.authors.includes(author)) {
-										//doesn't show the notification if it's not matching only rules
+									if (this.props.onlyToogleOn && !this.props.authors.includes(author)) {
+										// we don't show the notification if the author is not in the only list
 										continue;
 									}
-									if (!this.props.ExcludeOrOnly && this.props.authors.includes(author)) {
-										//doesn't show the notification if author is excluded
+									if (!this.props.onlyToogleOn && this.props.authors.includes(author)) {
+										// we don't show the notification if author is in excluded list
 										continue;
 									}
 								}
