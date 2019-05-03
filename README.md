@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://github.com/pushpay-labs/NotifyReviewer/raw/master/dist/logo.png?raw=true">
+</p>
+
 # Notify Reviewer
 
 > Chrome extension making you able to add listener to github flags
@@ -14,3 +18,7 @@
 1.  Complete the steps to build the project above
 2.  Go to [_chrome://extensions_](chrome://extensions) in Google Chrome
 3.  With the developer mode checkbox ticked, click **Load unpacked extension...** and select the dist folder from this repo
+
+## Release
+
+You can also get a release version here : https://chrome.google.com/webstore/detail/notifyreviewer/imnnkcbindmjdmafdlkhehhbfpecjgig

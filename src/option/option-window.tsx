@@ -6,6 +6,8 @@ import { extensionName } from '../constants';
 export interface FlagToListenTo {
 	repoUrl: string;
 	flag: string[];
+	authors: string[];
+	onlyToogleOn: boolean;
 	frequency: number;
 	isValid: boolean;
 }
@@ -41,6 +43,7 @@ export default class OptionWindow extends React.Component {
 		history: []
 	} as OptionState;
 
+
 	componentDidMount() {
 		chrome.storage.sync.get(extensionName, (savedflags) => this.setState(initState(savedflags)));
 	}
@@ -58,6 +61,22 @@ export default class OptionWindow extends React.Component {
 				keepHistory: !this.state.keepHistory,
 			});
 		});
+	}
+
+	UnRequireInput = () => {
+		const author = document.getElementById('authorInput') as HTMLInputElement;
+		const flag = document.getElementById('flagInput') as HTMLInputElement;
+		if (!author.value) {
+			flag.required = true;
+		} else {
+			flag.required = false;
+		}
+
+		if (!flag.value) {
+			author.required = true;
+		} else {
+			author.required = false;
+		}
 	}
 
 	validateFlag = async (flag: FlagToListenTo) => {
@@ -100,11 +119,16 @@ export default class OptionWindow extends React.Component {
 	handleSubmit = (event) => {
 		event.preventDefault();
 		let flags: string[];
+		let authors: string[];
 		let frequency: number;
 		let repoUrl: string;
+		let onlyToogleOn: boolean;
+
 		frequency = event.target.elements.frequencyInput.value;
 		flags = event.target.elements.flagInput.value.split(';').map(item => item.trim()).filter((e) => e);
+		authors = event.target.elements.authorInput.value.split(';').map(item => item.trim()).filter((e) => e);
 		repoUrl = event.target.elements.urlInput.value;
+		onlyToogleOn = event.target.elements.ExcludeOrOnly.value !== 'Exclude';
 
 		chrome.storage.sync.get(extensionName, async (savedflags) => {
 			let items = savedflags[extensionName] && savedflags[extensionName].flags || [];
@@ -112,6 +136,8 @@ export default class OptionWindow extends React.Component {
 				repoUrl: repoUrl,
 				flag: flags,
 				frequency: frequency,
+				authors: authors,
+				onlyToogleOn : onlyToogleOn
 			} as FlagToListenTo;
 			newFlag.isValid = await this.validateFlag(newFlag);
 			console.log(newFlag.isValid);
@@ -167,7 +193,29 @@ export default class OptionWindow extends React.Component {
 							<InputGroupAddon addonType="prepend">
 								<InputGroupText id="flagsaddon" >Label to listen to</InputGroupText>
 							</InputGroupAddon>
-							<Input id="flagInput" name="flagInput" type="text" placeholder="Ready For Review; Ready To Land" aria-label="flags" aria-describedby="flagsaddon" required />
+							<Input id="flagInput" name="flagInput" type="text" placeholder="Ready For Review; Ready To Land" aria-label="flags" aria-describedby="flagsaddon" required
+								onChange={this.UnRequireInput} />
+						</InputGroup>
+					</FormGroup>
+					<FormGroup>
+						<InputGroup>
+							<InputGroupAddon addonType="prepend">
+								<InputGroupText id="flagsaddon" >Author to listen to</InputGroupText>
+							</InputGroupAddon>
+							<Input id="authorInput" name="authorInput" type="text" placeholder="author1; author2" aria-label="flags" aria-describedby="authoraddon" required
+								onChange={this.UnRequireInput} />
+						</InputGroup>
+					</FormGroup>
+					<FormGroup>
+						<InputGroup className="form-check-inline">
+							<Input type="radio" name="onlyToogleOn" id="radioExclude" value="Exclude" defaultChecked />
+							<Label for="radioExclude">
+								Exclude Authors
+							</Label>
+							<Input type="radio" name="onlyToogleOn" id="radioOnly" value="Only" />
+							<Label for="radioOnly">
+								Only Authors
+							</Label>
 						</InputGroup>
 					</FormGroup>
 					<FormGroup>
@@ -185,11 +233,12 @@ export default class OptionWindow extends React.Component {
 					<h5>Listeners</h5>
 					<ul className="list-group list-group-flush list_sbar">
 						<Table>
-							<thead><tr><th>Repo</th><th>Flags</th><th>Freq(secs)</th><th></th></tr></thead>
+							<thead><tr><th>Repo</th><th>Flags</th><th>Authors</th><th>Freq(secs)</th><th></th></tr></thead>
 							<tbody>{this.state.flags.map((flag, index) => {
 								return <tr className={flag.isValid ? '' : 'table-danger'} key={index}>
 									<td>{flag.repoUrl.replace('https://github.com/', '')}</td>
 									<td>{flag.flag.join('; ')}</td>
+									<td>{!flag.onlyToogleOn ? <s>{flag.authors.join('; ')}</s> : flag.authors.join('; ')}</td>
 									<td>{flag.frequency}</td>
 									<td>
 										<Button type="button" className="close" aria-label="Close" onClick={() => this.removeFlag(index)}>

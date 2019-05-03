@@ -4,7 +4,8 @@ import { initState, FlagToListenTo } from '../option/option-window';
 
 
 export default class PullRequestPoller extends React.Component<FlagToListenTo, {}> {
-	timer: number;
+	//https://stackoverflow.com/questions/45802988/typescript-use-correct-version-of-settimeout-node-vs-window
+	timer: any;
 	props: FlagToListenTo;
 
 	constructor(props: any, state: any) {
@@ -30,6 +31,17 @@ export default class PullRequestPoller extends React.Component<FlagToListenTo, {
 							const pullrequests = doc.querySelectorAll('a[id^=\'issue_\']');
 							for (var i = 0, element; element = pullrequests[i]; i++) {
 								let newPr = pullrequests[i].innerHTML;
+								let author = pullrequests[i].parentElement.querySelector('a.muted-link').innerHTML;
+								if (this.props.authors.length > 0) {
+									if (this.props.onlyToogleOn && !this.props.authors.includes(author)) {
+										// we don't show the notification if the author is not in the only list
+										continue;
+									}
+									if (!this.props.onlyToogleOn && this.props.authors.includes(author)) {
+										// we don't show the notification if author is in excluded list
+										continue;
+									}
+								}
 								if (!state.history.some(x => x.length === newPr.length)) {
 									var opt = {
 										type: 'basic',
