@@ -66,17 +66,8 @@ export default class OptionWindow extends React.Component {
 	UnRequireInput = () => {
 		const author = document.getElementById('authorInput') as HTMLInputElement;
 		const flag = document.getElementById('flagInput') as HTMLInputElement;
-		if (!author.value) {
-			flag.required = true;
-		} else {
-			flag.required = false;
-		}
-
-		if (!flag.value) {
-			author.required = true;
-		} else {
-			author.required = false;
-		}
+		flag.required = !author.value
+		author.required = !flag.value
 	}
 
 	validateFlag = async (flag: FlagToListenTo) => {
@@ -128,7 +119,7 @@ export default class OptionWindow extends React.Component {
 		flags = event.target.elements.flagInput.value.split(';').map(item => item.trim()).filter((e) => e);
 		authors = event.target.elements.authorInput.value.split(';').map(item => item.trim()).filter((e) => e);
 		repoUrl = event.target.elements.urlInput.value;
-		onlyToogleOn = event.target.elements.ExcludeOrOnly.value !== 'Exclude';
+		onlyToogleOn = event.target.elements.onlyToogleOn.value !== 'Exclude';
 
 		chrome.storage.sync.get(extensionName, async (savedflags) => {
 			let items = savedflags[extensionName] && savedflags[extensionName].flags || [];
