@@ -218,7 +218,7 @@ export default class OptionWindow extends React.Component {
 						</InputGroup>
 					</FormGroup>
 					<FormGroup>
-						<Button color="secondary" block outline type="Submit" >Add</Button>
+						<Button color="secondary" block outline type="submit" >Add</Button>
 					</FormGroup>
 					<br />
 					<h5>Listeners</h5>
