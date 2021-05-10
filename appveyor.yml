@@ -1,5 +1,5 @@
 environment:
-  nodejs_version: "10"
+  nodejs_version: "12"
   EXTENSION_ID:
     secure: 1sDEVQM+HCPKqyAwafg5BUi7d+fVcyoYuzxuBRGfsRyju2QC7YVy9ha9Ze6aNZMZ
   CLIENT_SECRET:
